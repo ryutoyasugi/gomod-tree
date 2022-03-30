@@ -1,5 +1,5 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+Copyright © 2022 ryutoyasugi
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,25 +13,42 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package cmd
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/spf13/cobra"
+)
+
+const (
+	description = "Print go mod dependency tree"
+
+	depthFlagName = "depth"
+	depthMax      = 10
+	depthDefault  = 3
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "ryutoyasugi",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Use:   "gomod-tree",
+	Short: description,
+	Long: fmt.Sprintf(`%s
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+  Find more information at: https://github.com/ryutoyasugi/gomod-tree 
+
+`, description),
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		depth, _ := cmd.Flags().GetInt(depthFlagName)
+		if depth > depthMax {
+			cobra.CheckErr(errors.New(fmt.Sprintf("max depth is %d", depthMax)))
+		}
+		PrintDependencies(depth)
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -50,4 +67,5 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().IntP(depthFlagName, "d", depthDefault, "Dependency depth to display")
 }
