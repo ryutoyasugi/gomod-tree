@@ -1,4 +1,6 @@
 # gomod-tree
+[![Test](https://github.com/ryutoyasugi/gomod-tree/actions/workflows/test.yml/badge.svg)](https://github.com/ryutoyasugi/gomod-tree/actions/workflows/test.yml)
+
 Print `go mod` dependency tree.  
 This command call `go mod graph` internally.
 
