@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "gomod-tree/cmd"
+import "github.com/ryutoyasugi/gomod-tree/cmd"
 
 func main() {
 	cmd.Execute()

@@ -1,4 +1,4 @@
-module gomod-tree
+module github.com/ryutoyasugi/gomod-tree
 
 go 1.18
 
