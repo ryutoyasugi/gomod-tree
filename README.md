@@ -2,6 +2,11 @@
 Print `go mod` dependency tree.  
 This command call `go mod graph` internally.
 
+## Install
+```sh
+$ go install github.com/ryutoyasugi/gomod-tree@latest
+```
+
 ## Usage
 ```sh
 $ gomod-tree
