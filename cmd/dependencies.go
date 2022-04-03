@@ -37,7 +37,9 @@ func (p Package) print() {
 	if p.version != "" {
 		fullName = fullName + packageSeparator + p.version
 	}
-	fmt.Println("-", fullName)
+	if fullName != "" {
+		fmt.Println("-", fullName)
+	}
 }
 
 // ex. github.com/spf13/cobra@v1.4.0 github.com/spf13/pflag@v1.0.5
@@ -54,11 +56,13 @@ func readGoModGraph() (Dependencies, Package) {
 		cobra.CheckErr(errors.New("failed to run `go mod graph`"))
 	}
 
-	trim := strings.TrimSuffix(string(out), "\n")
-	lines := strings.Split(trim, "\n")
+	lines := strings.Split(string(out), "\n")
 	var d = Dependencies{}
 	var main Package
 	for _, line := range lines {
+		if line == "" {
+			continue
+		}
 		parent, child := newPackagePair(line)
 		if parent.isMain() {
 			main = parent
